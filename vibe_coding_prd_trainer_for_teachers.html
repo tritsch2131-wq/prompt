@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교사를 위한 바이브 코딩 PRD & 프롬프트 워크북</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-indigo-700 text-white shadow-md sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-800 p-2.5 rounded-xl shadow-inner text-amber-300 text-xl">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight">교사용 바이브 코딩 PRD 워크북</h1>
+                    <p class="text-xs text-indigo-200">생성형 AI에게 정확한 앱 생성을 지시하는 프롬프트 설계 도구</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="fillSampleBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition flex items-center gap-1.5 shadow-sm border border-indigo-400/30">
+                    <i class="fa-solid fa-file-import"></i> 예시 데이터 채우기
+                </button>
+                <button id="resetBtn" class="bg-indigo-800 hover:bg-rose-600 text-indigo-200 hover:text-white text-xs sm:text-sm px-3 py-2 rounded-lg font-medium transition">
+                    <i class="fa-solid fa-rotate-right"></i> 초기화
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
+        
+        <!-- Left Column: Input Form Steps (7 cols) -->
+        <section class="lg:col-span-7 space-y-6">
+            
+            <!-- Progress / Intro Banner -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm border border-indigo-100">
+                        PRD
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-semibold text-slate-700">바이브 코딩(Vibe Coding)이란?</h2>
+                        <p class="text-xs text-slate-500">코드를 직접 짜지 않고 AI에게 구체적인 요구사항(PRD)을 전달하여 앱을 제작하는 기법입니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1: 문제 정의하기 -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition hover:border-indigo-200">
+                <div class="bg-slate-100/70 border-b border-slate-200 px-5 py-3 flex items-center justify-between">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-100">1단계</span>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base flex-1 ml-3">해결하고자 하는 문제 정의하기</h3>
+                </div>
+                <div class="p-5 space-y-3">
+                    <!-- Bad & Good Example Box -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div class="bg-rose-50 border border-rose-200 rounded-lg p-2.5 text-rose-800">
+                            <span class="font-bold block text-rose-900 mb-0.5"><i class="fa-solid fa-xmark text-rose-500 mr-1"></i> 나쁜 예시 (너무 모호함)</span>
+                            "학생들이 수업시간에 집중을 안 한다."
+                        </div>
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-2.5 text-emerald-800">
+                            <span class="font-bold block text-emerald-900 mb-0.5"><i class="fa-solid fa-check text-emerald-500 mr-1"></i> 좋은 예시 (구체적 상황)</span>
+                            "수학 시간에 딴짓을 하는 학생이 많다. 특히 대분수의 덧셈을 많이 힘들어한다."
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">우리 학급/수업에서 해결하려는 문제는 무엇인가요?</label>
+                        <textarea id="step1Input" rows="3" placeholder="예: 수학 시간에 딴짓을 하는 학생이 많다. 특히 대분수의 덧셈을 많이 힘들어한다." class="w-full text-sm p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition custom-scrollbar"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: 타깃 사용자 및 환경 -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition hover:border-indigo-200">
+                <div class="bg-slate-100/70 border-b border-slate-200 px-5 py-3 flex items-center justify-between">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-100">2단계</span>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base flex-1 ml-3">타깃 사용자 및 사용 환경</h3>
+                </div>
+                <div class="p-5 space-y-4">
+                    <p class="text-xs text-slate-500">누가, 언제, 어디서, 어떤 기기로 이 앱을 사용할 것인지 명확히 설정합니다.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">주 사용자</label>
+                            <input type="text" id="step2User" placeholder="예: 초등학교 5학년 학생" class="w-full text-sm p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">사용 시점/장소</label>
+                            <input type="text" id="step2Time" placeholder="예: 수업 중 개별활동 10분간" class="w-full text-sm p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">사용 기기</label>
+                            <input type="text" id="step2Device" placeholder="예: 개인 태블릿 (웨일북/태블릿)" class="w-full text-sm p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: 해결방안 한 문장 작성 -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition hover:border-indigo-200">
+                <div class="bg-slate-100/70 border-b border-slate-200 px-5 py-3 flex items-center justify-between">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-100">3단계</span>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base flex-1 ml-3">해결방안 (한 문장으로 정의)</h3>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div class="bg-rose-50 border border-rose-200 rounded-lg p-2.5 text-rose-800">
+                            <span class="font-bold block text-rose-900 mb-0.5"><i class="fa-solid fa-xmark text-rose-500 mr-1"></i> 나쁜 예시 (추상적 목적)</span>
+                            "재미있는 학습 앱을 만든다."
+                        </div>
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-2.5 text-emerald-800">
+                            <span class="font-bold block text-emerald-900 mb-0.5"><i class="fa-solid fa-check text-emerald-500 mr-1"></i> 좋은 예시 (명확한 행동 및 가치)</span>
+                            "학생들이 대분수의 덧셈 문제를 직접 풀어보고 피드백을 받을 수 있는 연습 앱을 만든다."
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">어떤 앱을 만들어 문제를 해결할 것인지 한 문장으로 정의하세요.</label>
+                        <input type="text" id="step3Solution" placeholder="예: 학생들이 대분수의 덧셈 문제를 직접 풀어보고, 피드백을 받을 수 있는 연습 앱을 만든다." class="w-full text-sm p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: 핵심 기능 정의 -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition hover:border-indigo-200">
+                <div class="bg-slate-100/70 border-b border-slate-200 px-5 py-3 flex items-center justify-between">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-100">4단계</span>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base flex-1 ml-3">핵심 기능 정의 (MVP 설계)</h3>
+                </div>
+                <div class="p-5 space-y-4">
+                    <p class="text-xs text-slate-500">최초 프로토타입에 꼭 필요한 <b class="text-indigo-600">필수 기능</b>과 추후 고도화할 <b class="text-indigo-600">추가 기능</b>을 분리합니다.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1 flex items-center gap-1">
+                                <i class="fa-solid fa-star text-amber-500"></i> 필수 기능 (최소 동작 요구사항)
+                            </label>
+                            <textarea id="step4Required" rows="3" placeholder="예: 대분수 문제 자동 제시, 정답/오답 입력창, 즉각적인 오답 표시 및 정답 풀이" class="w-full text-sm p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none custom-scrollbar"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 flex items-center gap-1">
+                                <i class="fa-solid fa-plus-circle text-slate-400"></i> 세부 기능 (추후 확장 기능)
+                            </label>
+                            <textarea id="step4Optional" rows="3" placeholder="예: 오답노트 기능, 학급별 실시간 랭킹표, 학생별 학습 진도 그래프" class="w-full text-sm p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none custom-scrollbar"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: 사용자 경험 (UX Flow) -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition hover:border-indigo-200">
+                <div class="bg-slate-100/70 border-b border-slate-200 px-5 py-3 flex items-center justify-between">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-100">5단계</span>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base flex-1 ml-3">사용자 경험 (UX Flow 흐름 작성)</h3>
+                </div>
+                <div class="p-5 space-y-3">
+                    <p class="text-xs text-slate-500">사용자가 앱을 처음 켜고 종료할 때까지의 이용 단계를 순서대로 적어주세요.</p>
+                    <textarea id="step5Flow" rows="5" placeholder="1. QR코드를 스캔하여 웹 앱 접속
+2. 학생 이름 및 번호 입력 후 로그인
+3. 메인화면에서 '오늘의 문제 시작하기' 버튼 클릭
+4. 대분수 덧셈 10문제 순차적 풀기
+5. 결과 및 점수 확인 (오답 피드백 제공)" class="w-full text-sm p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none leading-relaxed custom-scrollbar"></textarea>
+                </div>
+            </div>
+
+            <!-- AI Feedback Generation Trigger -->
+            <div class="bg-indigo-900 text-white p-5 rounded-xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="space-y-1 text-center sm:text-left">
+                    <h4 class="font-bold text-base text-amber-300 flex items-center justify-center sm:justify-start gap-2">
+                        <i class="fa-solid fa-robot"></i> Gemini AI 프롬프트 피드백
+                    </h4>
+                    <p class="text-xs text-indigo-200">작성하신 PRD를 검토하여 더 구체적이고 완성도 높은 바이브 코딩 팁을 제공합니다.</p>
+                </div>
+                <button id="analyzeAiBtn" class="bg-amber-400 hover:bg-amber-300 text-indigo-950 font-bold text-sm px-5 py-2.5 rounded-lg transition shadow-md whitespace-nowrap flex items-center gap-2">
+                    <i class="fa-solid fa-sparkles"></i> AI 피드백 받기
+                </button>
+            </div>
+
+            <!-- AI Feedback Output Modal/Card (Hidden by default) -->
+            <div id="aiFeedbackBox" class="hidden bg-white p-5 rounded-xl border border-indigo-200 shadow-md space-y-3">
+                <div class="flex items-center justify-between border-b pb-2">
+                    <span class="font-bold text-sm text-indigo-900 flex items-center gap-2">
+                        <i class="fa-solid fa-square-poll-vertical text-indigo-600"></i> AI PRD 피드백 및 코딩 가이드
+                    </span>
+                    <button id="closeAiBox" class="text-slate-400 hover:text-slate-600 text-sm">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="aiFeedbackContent" class="text-xs text-slate-700 leading-relaxed whitespace-pre-wrap bg-slate-50 p-4 rounded-lg border border-slate-200 max-h-60 overflow-y-auto custom-scrollbar">
+                    AI가 분석 중입니다...
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Right Column: Live Generated Prompt Output (5 cols) -->
+        <section class="lg:col-span-5 space-y-4 lg:sticky lg:top-24 h-fit">
+            
+            <div class="bg-slate-900 text-slate-100 rounded-xl shadow-lg border border-slate-800 flex flex-col overflow-hidden">
+                
+                <!-- Output Header -->
+                <div class="bg-slate-800/90 px-4 py-3 border-b border-slate-700 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                        <span class="text-xs font-mono font-bold text-slate-300 ml-1">VibeCoding_Master_Prompt.md</span>
+                    </div>
+                    <span class="text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded font-mono">자동 조합 중</span>
+                </div>
+
+                <!-- Prompt Guide Info Banner -->
+                <div class="bg-indigo-950/60 px-4 py-2.5 border-b border-indigo-900/50 text-[11px] text-indigo-200 flex items-center justify-between">
+                    <span><i class="fa-solid fa-circle-info mr-1 text-amber-400"></i> 아래 완성된 프롬프트를 복사하여 AI 툴에 전달하세요!</span>
+                </div>
+
+                <!-- Generated Prompt Text Area -->
+                <div class="p-4 bg-slate-900 font-mono text-xs text-slate-200 leading-relaxed max-h-[calc(100vh-280px)] overflow-y-auto custom-scrollbar">
+                    <pre id="promptResult" class="whitespace-pre-wrap break-words font-mono text-slate-300"></pre>
+                </div>
+
+                <!-- Action Button Footer -->
+                <div class="p-4 bg-slate-800/80 border-t border-slate-700 flex flex-col gap-2">
+                    <button id="copyPromptBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm py-3 px-4 rounded-lg shadow transition flex items-center justify-center gap-2">
+                        <i class="fa-regular fa-copy text-base"></i>
+                        <span>전체 프롬프트 한꺼번에 복사하기</span>
+                    </button>
+                    <div id="copyToast" class="hidden text-center text-xs text-emerald-400 font-medium py-1">
+                        <i class="fa-solid fa-check mr-1"></i> 클립보드에 복사되었습니다! AI 코딩 툴에 붙여넣으세요.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Guide Cards for AI Tools -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2 text-xs text-slate-600">
+                <h4 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-lightbulb text-amber-500"></i> 추천 바이브 코딩 실행 방법
+                </h4>
+                <ol class="list-decimal list-inside space-y-1.5 text-slate-600 pl-1">
+                    <li>상단의 <b>[전체 프롬프트 복사하기]</b> 버튼을 누릅니다.</li>
+                    <li><b>Claude 3.5 Sonnet, Cursor, ChatGPT, Windsurf</b> 등의 AI 툴을 엽니다.</li>
+                    <li>복사한 프롬프트를 붙여넣고 <code class="bg-slate-100 text-indigo-600 px-1 py-0.5 rounded border">"이 요구사항에 맞춰 단일 HTML 파일로 코드를 작성해줘"</code> 라고 지시합니다.</li>
+                </ol>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 text-xs text-center py-4 border-t border-slate-700 mt-auto">
+        <p>© 교사를 위한 바이브 코딩(Vibe Coding) 프롬프트 실습 도구 | 디지털 교육 전환 및 SW/AI 교육용</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // DOM Element References
+        const step1Input = document.getElementById('step1Input');
+        const step2User = document.getElementById('step2User');
+        const step2Time = document.getElementById('step2Time');
+        const step2Device = document.getElementById('step2Device');
+        const step3Solution = document.getElementById('step3Solution');
+        const step4Required = document.getElementById('step4Required');
+        const step4Optional = document.getElementById('step4Optional');
+        const step5Flow = document.getElementById('step5Flow');
+
+        const promptResult = document.getElementById('promptResult');
+        const fillSampleBtn = document.getElementById('fillSampleBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const copyPromptBtn = document.getElementById('copyPromptBtn');
+        const copyToast = document.getElementById('copyToast');
+
+        const analyzeAiBtn = document.getElementById('analyzeAiBtn');
+        const aiFeedbackBox = document.getElementById('aiFeedbackBox');
+        const aiFeedbackContent = document.getElementById('aiFeedbackContent');
+        const closeAiBox = document.getElementById('closeAiBox');
+
+        // Sample Data for Teachers
+        const sampleData = {
+            step1: "수학 시간에 딴짓을 하는 학생이 많다. 특히 대분수의 덧셈 개념 이해를 힘들어하고 반복 계산 연습에 흥미를 느끼지 못한다.",
+            step2User: "초등학교 5학년 학생",
+            step2Time: "수학 수업 중 개별 형성평가 및 보완 활동 10분간",
+            step2Device: "학급 내 개인 태블릿 PC (웹 브라우저 접속 환경)",
+            step3: "학생들이 대분수의 덧셈 문제를 직접 풀어보고, 시각적 힌트와 즉시 피드백을 받아 재미있게 개념을 익힐 수 있는 웹 연습 앱을 만든다.",
+            step4Required: "- 대분수의 덧셈 문제 자동 생성 (랜덤 분수 제시)\n- 정답 입력창 (자연수, 분자, 분모 구분 입력)\n- 즉각적인 정 오답 체크 및 시각적 오답 노트/해설 제공\n- 10문제 연속 풀기 진행 바 표시",
+            step4Optional: "- 오답 노트 재풀기 기능\n- 학급 내 실시간 랭킹표 (랭킹 시스템)\n- 학생별 일자별 학습 진도 및 정답률 그래프",
+            step5: "1. 학생이 개인 태블릿으로 제공된 QR코드를 스캔하여 앱 접속\n2. 이름 및 반 번호를 입력하여 로그인\n3. 메인 화면에서 '오늘의 대분수 도전하기' 버튼 클릭\n4. 화면에 나타난 대분수 덧셈 10문제를 차례대로 입력하며 풀기\n5. 풀이가 끝난 후 결과 및 점수 확인, 오답 풀이 피드백 확인"
+        };
+
+        // Real-time Prompt Generator Function
+        function updatePrompt() {
+            const problem = step1Input.value.trim() || "(해결하고자 하는 문제를 입력하세요)";
+            const user = step2User.value.trim() || "(주 사용자)";
+            const time = step2Time.value.trim() || "(사용 시간 및 장소)";
+            const device = step2Device.value.trim() || "(사용 기기)";
+            const solution = step3Solution.value.trim() || "(앱의 핵심 해결방안 한 문장)";
+            const reqFunc = step4Required.value.trim() || "(필수 동작 기능 목록)";
+            const optFunc = step4Optional.value.trim() || "(추후 확장 세부 기능)";
+            const flow = step5Flow.value.trim() || "(1. 접속 -> 2. 로그인 -> 3. 실행 ...)";
+
+            const fullPrompt = `[역할 정의]
+당신은 세계 최고 수준의 교육용 Web App 개발자입니다. 아래 교사가 기획한 PRD(제품 요구사항 문서)를 바탕으로, 즉시 실행 가능하고 미려한 디자인의 단일 파일 Web Application을 개발해 주세요.
+
+---
+
+1. 해결하려는 문제 (Problem Statement)
+${problem}
+
+2. 타깃 사용자 및 사용 환경 (Target & Environment)
+- 주 사용자: ${user}
+- 사용 시간 및 상황: ${time}
+- 사용 기기: ${device}
+
+3. 핵심 해결방안 (Proposed Solution)
+${solution}
+
+4. 기능 요구사항 (Features & Requirements)
+[필수 구현 기능 (MVP)]
+${reqFunc}
+
+[추후 확장 기능 (참고용)]
+${optFunc}
+
+5. 사용자 경험 및 이용 흐름 (UX Workflow)
+${flow}
+
+---
+
+[개발 가이드라인 및 기술 지침]
+1. 디자인 & UI: 초등학생 및 교사가 사용하기 쉽도록 직관적이고 깔끔하며 파스텔 톤의 친근한 테마로 구현해 주세요. (Tailwind CSS 활용)
+2. 반응형: 개인 태블릿 PC 및 스크린 크기에 맞춰 최적화된 반응형 레이아웃을 작성하세요.
+3. 실행 형태: 별도의 외부 서버나 세팅 없이 브라우저에서 바로 동작하도록 HTML, CSS, JavaScript를 **단일 파일(Single HTML File)**로 작성해 주세요.
+4. 완성도: 플레이스홀더(...)나 생략 없이 완벽히 동작 가능한 전체 코드를 작성해 주세요.`;
+
+            promptResult.textContent = fullPrompt;
+        }
+
+        // Attach event listeners for real-time update
+        const inputs = [step1Input, step2User, step2Time, step2Device, step3Solution, step4Required, step4Optional, step5Flow];
+        inputs.forEach(input => {
+            input.addEventListener('input', updatePrompt);
+        });
+
+        // Fill Sample Data Button Event
+        fillSampleBtn.addEventListener('click', () => {
+            step1Input.value = sampleData.step1;
+            step2User.value = sampleData.step2User;
+            step2Time.value = sampleData.step2Time;
+            step2Device.value = sampleData.step2Device;
+            step3Solution.value = sampleData.step3;
+            step4Required.value = sampleData.step4Required;
+            step4Optional.value = sampleData.step4Optional;
+            step5Flow.value = sampleData.step5;
+
+            updatePrompt();
+        });
+
+        // Reset Button Event
+        resetBtn.addEventListener('click', () => {
+            if (confirm('작성 중인 내용이 모두 초기화됩니다. 계속하시겠습니까?')) {
+                inputs.forEach(input => input.value = '');
+                updatePrompt();
+                aiFeedbackBox.classList.add('hidden');
+            }
+        });
+
+        // Copy Prompt to Clipboard
+        copyPromptBtn.addEventListener('click', () => {
+            const textToCopy = promptResult.textContent;
+            
+            // Legacy execCommand fall-back for compatibility in various embedded browsers
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = textToCopy;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            
+            try {
+                document.execCommand('copy');
+                copyToast.classList.remove('hidden');
+                setTimeout(() => {
+                    copyToast.classList.add('hidden');
+                }, 3000);
+            } catch (err) {
+                alert('복사에 실패했습니다. 수동으로 텍스트를 선택하여 복사해 주세요.');
+            } finally {
+                document.body.removeChild(tempTextArea);
+            }
+        });
+
+        // Gemini AI Feedback Functionality
+        analyzeAiBtn.addEventListener('click', async () => {
+            const promptText = promptResult.textContent;
+
+            if (!step1Input.value.trim() && !step3Solution.value.trim()) {
+                alert('AI 피드백을 받으려면 최소한 [1단계 문제]나 [3단계 해결방안]을 작성해 주세요.');
+                return;
+            }
+
+            aiFeedbackBox.classList.remove('hidden');
+            aiFeedbackContent.innerHTML = `<div class="flex items-center gap-2 text-indigo-600 font-semibold">
+                <i class="fa-solid fa-spinner fa-spin"></i> Gemini AI가 PRD와 프롬프트를 분석하여 피드백을 생성 중입니다...
+            </div>`;
+
+            const systemPrompt = `당신은 초·중등 교사의 수업용 SW 및 AI 앱 개발을 지원하는 '바이브 코딩(Vibe Coding) 전문 에듀테크 컨설턴트'입니다.
+교사가 작성한 PRD 및 AI 지시용 프롬프트를 보고 다음 요소를 포함하여 구체적이고 다정한 어조로 피드백을 작성해 주세요:
+1. 작성한 PRD의 장점 (구체성, 타깃 명확성)
+2. 바이브 코딩 시 추가하면 좋은 꿀팁 (예: 시각 효과, 보상 체계, 데이터 저장 방식 등)
+3. AI 코딩 툴(Cursor, Claude 등)에 전달할 때 오작동을 줄이는 수정 지침`;
+
+            const userQuery = `아래 교사가 작성한 PRD 프롬프트를 분석하고 검토 피드백을 제공해 주세요:\n\n${promptText}`;
+
+            try {
+                const apiKey = ""; // API key managed runtime
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+
+                const data = await response.json();
+                const aiResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (aiResponse) {
+                    aiFeedbackContent.textContent = aiResponse;
+                } else {
+                    aiFeedbackContent.textContent = 'AI 응답을 불러오는데 실패했습니다. 입력 내용을 확인 후 다시 시도해 주세요.';
+                }
+
+            } catch (error) {
+                console.error(error);
+                aiFeedbackContent.textContent = 'AI 네트워크 요청 도중 오류가 발생했습니다. 나중에 다시 시도해 주세요.';
+            }
+        });
+
+        closeAiBox.addEventListener('click', () => {
+            aiFeedbackBox.classList.add('hidden');
+        });
+
+        // Initialize with default update on load
+        window.onload = function() {
+            updatePrompt();
+        };
+    </script>
+</body>
+</html>
